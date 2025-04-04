@@ -1,0 +1,96 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "SSD-250gb",
+        "description": "Описание отсутствует",
+        "image": "",
+        "category": 1,
+        "price": 2600,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "SSD-520gb",
+        "description": "None",
+        "image": "",
+        "category": 1,
+        "price": 2400,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "SSD-1000gb",
+        "description": "None",
+        "image": "",
+        "category": 1,
+        "price": 7600,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "HDD-520gb",
+        "description": null,
+        "image": "",
+        "category": 2,
+        "price": 3700,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "name": "HDD-1000gb",
+        "description": null,
+        "image": "",
+        "category": 2,
+        "price": 7200,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 10,
+    "fields": {
+        "name": "HDD-125gb",
+        "description": null,
+        "image": "",
+        "category": 2,
+        "price": 1700,
+        "created_at": "2025-04-04",
+        "updated_date": "2025-04-04"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Твердотельные накопители",
+        "description": "Описание отсутствует"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Жесткие диски",
+        "description": null
+    }
+}
+]
