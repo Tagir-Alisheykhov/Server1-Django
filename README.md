@@ -4,25 +4,26 @@
 фреймворка Django.
 
 ## Структура проекта
-- `catalog/`: 
-  - `migrations/`: 
-  - `templates/`: 
-  - `admin.py`: 
-  - `apps.py`:
-  - `models.py`:
-  - `tests.py`:
-  - `urls.py`:
-  - `views.py`:
+- `catalog/`: Приложение
+  - `migrations/`: Миграции 
+  - `templates/`: HTML-страницы веб-приложения
+  - `admin.py`: Модуль для работы с административной панелью
+  - `apps.py`: Приложения
+  - `models.py`: Модели для работы с БД
+  - `tests.py`: Модуль для тестирования функционала
+  - `urls.py`: Маршрутизатор для страниц веб-приложения
+  - `views.py`: Контроллер
 - `config/`: 
   - `asgi.py`: 
   - `settings.py`: 
-  - `urls.py`: 
-  - `wsgi.py`:
-- `static/`: 
-  - `css/`: 
-  - `js/`: 
-- `.gitignore`: 
-- `manage.py`: 
+  - `urls.py`: Маршрутизатор проекта
+  - `wsgi.py`: 
+- `static/`: Статические данные
+  - `css/`: Стили CSS
+  - `js/`: Скрипты JavaScript
+- `.gitignore`: Игнорируемые файлы
+- `catalog_fixture.json`: Файл с тестовыми данными для загрузки в БД.
+- `manage.py`: Менеджер для работы с проектом
 
 
 ## Запуск проекта
