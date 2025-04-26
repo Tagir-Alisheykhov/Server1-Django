@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Category(models.Model):
-    objects = None
     name = models.CharField(max_length=100, verbose_name="Название категории")
     description = models.TextField(
         verbose_name="Описание", blank=True, null=True, help_text="Введите описание"
@@ -17,7 +16,6 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    objects = None
     name = models.CharField(
         max_length=100,
         verbose_name="Название товара",
@@ -27,7 +25,7 @@ class Product(models.Model):
         help_text="Введите описание продукта", blank=True, null=True
     )
     image = models.ImageField(
-        upload_to="catalog/photo",
+        upload_to="catalog/photo/",
         verbose_name="Изображение",
         blank=True,
         null=True,
@@ -40,6 +38,11 @@ class Product(models.Model):
         blank=True,
         null=True,
         related_name="Products",
+    )
+    views_counter = models.PositiveIntegerField(
+        verbose_name="Счётчик просмотров",
+        help_text="Укажите количество просмотров",
+        default=0
     )
     price = models.IntegerField(help_text="Введите цену продукта", verbose_name="Цена")
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата создания")
