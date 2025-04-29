@@ -4,6 +4,7 @@ from catalog.models import Category, Product
 
 
 class Command(BaseCommand):
+    """Заполнение базы данных дефолтными значениями"""
     help = "Add catalog to the database"
 
     def handle(self, *args, **options):

@@ -1,0 +1,24 @@
+{% extends 'blogs/blogs_base.html' %}
+{% load blog_tags %}
+{% block content %}
+<div class="row">
+  {% for object in object_list %}
+  <div class="col-md-6">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <img src="{{ object.preview | blogs_media_filter }}">
+        <strong class="d-inline-block mb-2 text-success-emphasis">{{ object.category }}</strong>
+        <h3 class="mb-0">{{ object.title }}</h3>
+        <div class="mb-1 text-body-secondary">{{ object.created_at }}</div>
+        <p class="mb-auto">{{ object.description }}</p>
+        <a href="{% url 'blogs:blog_detail' object.pk %}" class="icon-link gap-1 icon-link-hover stretched-link">
+          Продолжить чтение...
+          <svg class="bi"><use xlink:href="#chevron-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

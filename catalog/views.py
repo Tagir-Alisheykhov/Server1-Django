@@ -9,13 +9,13 @@ from catalog.models import Product
 def home(request):
     return render(request, "home.html")
 
-
 # def contacts(request):
 #     if request.method == "POST":
 #         name = request.POST.get("name")
 #         message = request.POST.get("message")
 #         return HttpResponse(f"Спасибо {name}! Сообщение получено.")
 #     return render(request, "contacts.html")
+
 
 class ContactsView(TemplateView):
     """Страница контактов"""
@@ -33,6 +33,7 @@ class ProductDetailView(DetailView):
     model = Product
 
     def get_object(self, queryset=None):
+        """Увеличение счетчика просмотров"""
         self.object = super().get_object(queryset)
         self.object.views_counter += 1
         self.object.save()
