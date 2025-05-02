@@ -1,11 +1,10 @@
 from django import template
 from django.conf import settings
-
 register = template.Library()
 
 
 @register.filter()
-def media_filter(path):
+def blogs_media_filter(path):
     """
         Фильтрация шаблонных тегов.
         :param path: Путь до изображения
