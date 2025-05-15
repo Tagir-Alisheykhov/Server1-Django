@@ -22,7 +22,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "catalog",
-    "blogs"
+    "blogs",
+    "users",
+    "django_countries",  # Удобная библиотека для хранения и валидации стран
+    "phonenumber_field"  # Удобная библиотека для хранения и валидации номеров телефонов
 ]
 
 MIDDLEWARE = [
@@ -100,3 +103,25 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# СОЗДАНИЕ ПОЛЬЗОВАТЕЛЕЙ
+# Указана модель для создания пользователей
+AUTH_USER_MODEL = 'users.User'
+# Перенаправления на главную страницу после входа в аккаунт.
+LOGIN_REDIRECT_URL = '/'
+# Перенаправление на главную после выхода из аккаунта.
+LOGOUT_REDIRECT_URL = '/'
+
+# Настройка отправки писем через `Yandex`
+# Для работы с отправкой сообщений используется
+# функция в Django send_mail.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'ahitahir@yandex.ru'
+EMAIL_HOST_PASSWORD = 'ywcwyempawzzrvmc'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
