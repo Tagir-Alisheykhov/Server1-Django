@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 
 from catalog.models import Product
 
-
 FORBIDDEN_WORDS = [
     "казино",
     "криптовалюта",
@@ -24,12 +23,14 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = "__all__"
-        exclude = ("views_counter",)
+        exclude = ("views_counter", "owner")
 
     def __init__(self, *args, **kwargs):
         """
-            Стилизация формы:
+            Стилизация формы и проверки:
         """
+        # Получение пользователя из kwargs
+        self.user = kwargs.pop('user', None)
         super(ProductForm, self).__init__(*args, **kwargs)
 
         self.fields["name"].widget.attrs.update({
