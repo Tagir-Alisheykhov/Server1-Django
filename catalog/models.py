@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     """
@@ -26,6 +28,17 @@ class Product(models.Model):
         Модель продукта
     """
 
+    PUBLISH_STATUS = [
+        ('published', 'Опубликован'),
+        ('unpublished', 'Не опубликован'),
+    ]
+
+    publish_status = models.CharField(
+        max_length=20,
+        choices=PUBLISH_STATUS,
+        default='moderation',
+        verbose_name='Статус публикации'
+    )
     name = models.CharField(
         max_length=100,
         verbose_name="Название товара",
@@ -67,7 +80,15 @@ class Product(models.Model):
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name="Активный товар"
+        verbose_name="Готовность товара к продаже"
+    )
+    owner = models.ForeignKey(
+        User,
+        verbose_name="Владелец товара",
+        help_text="Укажите владельца товара",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -80,3 +101,6 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["name", "price", "category"]
+        permissions = [
+            ('can_unpublish_product', 'Can unpublish product'),
+        ]
