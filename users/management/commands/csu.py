@@ -19,5 +19,4 @@ class Command(BaseCommand):
         user.is_active = True
         user.is_staff = True
         user.is_superuser = True
-        user.id = 1
         user.save()
