@@ -1,4 +1,8 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.utils.text import slugify
+from transliterate import translit
 
 from users.models import User
 
@@ -7,9 +11,21 @@ class Category(models.Model):
     """
         Модель для категории продуктов.
     """
-    name = models.CharField(max_length=100, verbose_name="Название категории")
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Название категории"
+    )
+    slug = models.SlugField(
+        max_length=100,
+        unique=True,  # Уникальный slug для каждой категории
+        blank=True,
+        verbose_name="URL-идентификатор (slug)"
+    )
     description = models.TextField(
-        verbose_name="Описание", blank=True, null=True, help_text="Введите описание"
+        verbose_name="Описание",
+        blank=True,
+        null=True,
+        help_text="Введите описание"
     )
 
     def __str__(self):
@@ -18,9 +34,42 @@ class Category(models.Model):
         """
         return self.name
 
+    def get_unique_slug(self):
+        """
+            Генерирует уникальный slug на основе названия категории
+            с правильной проверкой уникальности
+        """
+        name_str = str(self.name)
+        slug = slugify(name_str)
+        if not slug:
+            try:
+                slug = slugify(translit(name_str, 'ru', reversed=True))
+            except:
+                slug = 'category'
+        if not slug:
+            slug = 'category'
+        unique_slug = slug
+        num = 1
+        queryset = Category.objects.all()
+        if self.pk:
+            queryset = queryset.exclude(pk=self.pk)  # Исключение текущего объекта из проверки.
+        while queryset.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{num}'
+            num += 1
+        return unique_slug
+
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
+
+@receiver(pre_save, sender=Category)
+def category_pre_save(sender, instance, **kwargs):
+    """
+    Автоматически заполняет slug перед сохранением объекта.
+    """
+    if not instance.slug or instance.slug == '':
+        instance.slug = instance.get_unique_slug()
 
 
 class Product(models.Model):

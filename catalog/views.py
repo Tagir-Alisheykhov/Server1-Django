@@ -12,7 +12,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 
 from catalog.forms import ProductForm
-from catalog.models import Product
+from catalog.models import Product, Category
+from catalog.services import get_products_from_cache, get_products_by_category
 
 
 def home(request):
@@ -20,18 +21,48 @@ def home(request):
 
 
 class ContactsView(TemplateView):
-    """Страница контактов"""
+    """ Страница контактов """
     template_name = "catalog/contacts.html"
     success_url = reverse_lazy("catalog:products_list")
 
 
 class ProductListView(ListView):
-    """Полный список продуктов"""
+    """ Полный список продуктов """
     model = Product
+
+    def get_queryset(self):
+        """ Получение данных из кэша """
+        return get_products_from_cache()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class ProductListByCategoryView(ListView):
+    """ Список продуктов в указанной категории """
+    model = Product
+    template_name = 'catalog/product_list_by_category.html'
+    context_object_name = 'products_by_category'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        category_slug = self.kwargs['category_slug']
+        if category_slug:
+            context['current_category'] = Category.objects.get(slug=category_slug)
+        return context
+
+    def get_queryset(self):
+        """Фильтрует товары по категории (из URL-параметра)."""
+        category_slug = self.kwargs['category_slug']
+        cached_products = get_products_from_cache()
+        return get_products_by_category(cached_products, category_slug)
 
 
 class ProductDetailView(DetailView):
-    """Детальная информация о продукте"""
+    """ Детальная информация о продукте """
     model = Product
 
     def get_object(self, queryset=None):
@@ -68,7 +99,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         """Проверка права на редактирование карточки товара"""
         self.object = self.get_object()
-        is_moderator = request.user.groups.filter(name='ProductModerators').exists()
         if request.user == self.object.owner:
             return super().get(request, *args, **kwargs)
         if not request.user.has_perm('catalog.can_unpublish_product'):
